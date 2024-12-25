@@ -21,7 +21,7 @@ function Menu() {
     useEffect(() => {
         async function getMenu() {
             try {
-                const response = await fetch('/api/menu');
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/menu`);
                 const data = await response.json();
                 setItems(data);
             } catch (error) {

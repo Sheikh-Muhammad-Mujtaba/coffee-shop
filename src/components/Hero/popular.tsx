@@ -19,7 +19,7 @@ function Popular() {
     useEffect(() => {
         async function getProducts() {
             try {
-                const response = await fetch('/api/popular');
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/popular`);
                 const data = await response.json();
                 setProducts(data);
             } catch (error) {

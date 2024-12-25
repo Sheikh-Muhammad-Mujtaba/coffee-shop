@@ -10,7 +10,7 @@ import { CartItem } from '@/components/UseCart/useCart';
 
 async function getItem(id: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/menu`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/menu`, {
       next: { revalidate: 60 },
     });
 

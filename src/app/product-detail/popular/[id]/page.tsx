@@ -10,7 +10,7 @@ import { CartItem } from '@/components/UseCart/useCart';
 
 async function getProduct(id: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/popular`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/popular`, {
       next: { revalidate: 60 },
     });
 
