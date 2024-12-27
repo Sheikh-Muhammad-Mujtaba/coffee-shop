@@ -3,16 +3,15 @@
 import { useState, useEffect } from 'react'
 
 export interface CartItem {
-    id: number;
-    image: string;
-    title: string;
-    price: string;
-    rating: number;
-    detail?: string;
-    quantity: number;
-  }
-  
-  
+  id: number;
+  image: string;
+  title: string;
+  price: string;
+  rating: number;
+  detail?: string;
+  quantity: number;
+}
+
 export function useCart() {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -61,6 +60,11 @@ export function useCart() {
     }, 0)
   }
 
+  const clearCart = () => {
+    setCartItems([])
+    localStorage.removeItem('cartItems')  
+  }
+
   return {
     cartItems,
     isLoading,
@@ -68,6 +72,6 @@ export function useCart() {
     removeFromCart,
     updateQuantity,
     getTotal,
+    clearCart,  
   }
 }
-

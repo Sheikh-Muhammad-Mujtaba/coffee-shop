@@ -1,20 +1,55 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingCart, Menu, X } from "lucide-react";
+import SearchBar from "@/components/ui/Searchbar";
 
 function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement | null>(null);
 
   const getLinkClasses = (path: string) =>
     `text-[16px] sm:text-[18px] ${
       pathname === path ? "text-[#FF902B]" : "text-gray-700"
     } hover:text-[#FF902B]`;
+
+  // Close search bar on screen resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Close search bar if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="fixed top-0 left-0 w-full bg-transparent z-50">
@@ -46,15 +81,8 @@ function Header() {
         {/* Search and Cart */}
         <div className="flex items-center gap-4">
           {/* Search (Desktop) */}
-          <div className="hidden lg:flex items-center px-2 w-[180px] sm:w-[222px] h-[40px] bg-white rounded-full shadow-lg">
-            <Search className="text-gray-500" />
-            <input
-              type="text"
-              name="search"
-              id="search"
-              placeholder="Cappuccino"
-              className="w-full h-full border-none text-sm px-2 rounded-full focus:outline-none"
-            />
+          <div className="hidden lg:flex w-[180px] sm:w-[222px]">
+            <SearchBar /> {/* Use the SearchBar component */}
           </div>
 
           {/* Search (Mobile) */}
@@ -68,7 +96,7 @@ function Header() {
 
           {/* Shopping Cart */}
           <Link href={`/cart`} passHref>
-          <ShoppingCart className="text-gray-700 hover:text-[#FF902B] cursor-pointer" />
+            <ShoppingCart className="text-gray-700 hover:text-[#FF902B] cursor-pointer" />
           </Link>
 
           {/* Hamburger Menu Icon */}
@@ -112,14 +140,12 @@ function Header() {
 
       {/* Search Bar for Mobile */}
       {isSearchOpen && (
-        <div className="absolute top-[60px] left-0 w-full bg-white shadow-md p-4 z-30">
+        <div
+          ref={searchRef}
+          className="absolute top-[60px] left-0 w-full bg-white shadow-md p-4 z-30"
+        >
           <div className="flex items-center w-full h-[40px] px-2 bg-gray-100 rounded-full">
-            <Search className="text-gray-500" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full h-full border-none text-sm px-2 rounded-full focus:outline-none"
-            />
+            <SearchBar /> {/* Use the SearchBar component */}
           </div>
         </div>
       )}

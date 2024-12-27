@@ -7,6 +7,7 @@ import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/components/UseCart/useCart';
 import { CartItem } from '@/components/UseCart/useCart';
+import { toast } from 'react-toastify'; 
 
 async function getItem(id: string) {
   try {
@@ -79,7 +80,16 @@ export default function ItemPage({ params }: { params: { id: string } }) {
   }
 
   const handleAddToCart = () => {
-    addToCart(item);
+    addToCart(item); 
+    toast.success(`${item.title} has been added to your cart!`, {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      draggable: true,
+      pauseOnHover: true,
+      theme: "light",
+    });
   };
 
   return (

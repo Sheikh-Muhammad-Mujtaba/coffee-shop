@@ -7,6 +7,7 @@ import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/components/UseCart/useCart';
 import { CartItem } from '@/components/UseCart/useCart';
+import { toast } from 'react-toastify'; 
 
 async function getProduct(id: string) {
   try {
@@ -29,7 +30,7 @@ async function getProduct(id: string) {
 export default function ProductPage({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<CartItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null); // For error handling
+  const [error, setError] = useState<string | null>(null); 
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -78,8 +79,17 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   }
 
   const handleAddToCart = () => {
-    addToCart(product);
-  };
+      addToCart(product); 
+      toast.success(`${product.title} has been added to your cart!`, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: "light",
+      });
+    };
 
   return (
     <div className="bg-[#F6EBDA] min-h-screen">

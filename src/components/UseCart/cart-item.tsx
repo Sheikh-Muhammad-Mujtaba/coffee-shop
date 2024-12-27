@@ -14,26 +14,29 @@ interface CartItemProps {
 export function CartItem({ item, onRemove, onUpdateQuantity }: CartItemProps) {
   return (
     <div className="flex flex-col md:flex-row items-center gap-4 p-4 bg-white rounded-lg shadow-sm">
+      {/* Product Image */}
       <div className="relative h-24 w-24 bg-[#F6EBDA] rounded-lg overflow-hidden">
         <Image
-          src={item.image}
-          alt={item.title}
+          src={item.image} // Image URL
+          alt={item.title}  // Alt text for accessibility
           fill
           className="object-contain p-2"
         />
       </div>
       
+      {/* Product Details */}
       <div className="flex-1">
         <h3 className="font-semibold text-[#2F2105]">{item.title}</h3>
         <p className="text-[#FF902B] font-medium">{item.price}K</p>
       </div>
 
+      {/* Quantity Controls */}
       <div className="flex items-center gap-2">
         <Button
           variant="outline"
           size="icon"
           className="h-8 w-8"
-          onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+          onClick={() => onUpdateQuantity(item.id, item.quantity - 1)} // Decrease quantity
         >
           <Minus className="h-4 w-4" />
         </Button>
@@ -42,21 +45,21 @@ export function CartItem({ item, onRemove, onUpdateQuantity }: CartItemProps) {
           variant="outline"
           size="icon"
           className="h-8 w-8"
-          onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+          onClick={() => onUpdateQuantity(item.id, item.quantity + 1)} // Increase quantity
         >
           <Plus className="h-4 w-4" />
         </Button>
       </div>
 
+      {/* Remove Item Button */}
       <Button
         variant="ghost"
         size="icon"
         className="text-gray-500 hover:text-red-500"
-        onClick={() => onRemove(item.id)}
+        onClick={() => onRemove(item.id)} // Remove the item from cart
       >
         <X className="h-5 w-5" />
       </Button>
     </div>
   )
 }
-

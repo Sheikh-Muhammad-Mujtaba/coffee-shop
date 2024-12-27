@@ -5,9 +5,10 @@ import { CartItem } from '@/components/UseCart/cart-item'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { toast } from 'react-toastify'
 
 export default function CartPage() {
-  const { cartItems, isLoading, removeFromCart, updateQuantity, getTotal } = useCart()
+  const { cartItems, isLoading, removeFromCart, updateQuantity, getTotal, clearCart } = useCart()
 
   if (isLoading) {
     return (
@@ -45,14 +46,22 @@ export default function CartPage() {
     )
   }
 
+  const handleCheckout = () => {
+    // Display success notification
+    toast.success("Proceeding to checkout!", { position: "bottom-right" })
+
+    // Clear cart after checkout
+    clearCart()
+  }
+
   return (
     <div className="min-h-screen bg-[#F6EBDA] pt-[80px]">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-2xl font-bold text-[#2F2105]">Shopping Cart</h1>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               asChild
               className="text-[#2F2105] hover:text-[#FF902B]"
             >
@@ -79,8 +88,9 @@ export default function CartPage() {
               <span className="text-lg text-[#2F2105]">Subtotal</span>
               <span className="text-2xl font-bold text-[#2F2105]">{getTotal().toFixed(1)}K</span>
             </div>
-            <Button 
+            <Button
               className="w-full bg-[#FF902B] hover:bg-[#e6811b] text-lg py-6"
+              onClick={handleCheckout}
             >
               Proceed to Checkout
             </Button>
@@ -90,4 +100,3 @@ export default function CartPage() {
     </div>
   )
 }
-
